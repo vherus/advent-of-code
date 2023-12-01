@@ -42,7 +42,6 @@ async function partTwo(fileName) {
         }
 
         sum += Number(num)
-
     }
 
     return sum
