@@ -2,11 +2,10 @@ const { open } = require('fs').promises
 
 async function extractData(fileName) {
     const input = await open(fileName)
-
     const seeds = []
     const maps = {}
-
     let firstLine = false
+
     for await (const l of input.readLines()) {
         if (!firstLine) {
             seeds.push(...l.split('seeds: ')[1].split(' ').map(Number))
@@ -33,7 +32,6 @@ async function extractData(fileName) {
 }
 
 async function calculateLowestLocation({ maps, seeds }) {
-
     const extractDestination = (key, source) => {
         const mapping = maps[key].find(map => source >= map.sourceStart && source <= map.sourceStart + (map.length-1))
         return !mapping ? source : mapping.destinationStart + (source - mapping.sourceStart)
@@ -54,4 +52,6 @@ async function calculateLowestLocation({ maps, seeds }) {
     return locations[0]
 }
 
-extractData(__dirname + '/input.txt').then(calculateLowestLocation).then(console.log)
+extractData(__dirname + '/input.txt')
+    .then(calculateLowestLocation)
+    .then(console.log)
